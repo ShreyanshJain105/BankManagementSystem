@@ -15,20 +15,32 @@ The Bank Management System is a desktop application developed using Java Swing f
 Features :-
 
 User Authentication: Secure login for customers and bank staff.
+
 Account Management: Create, update, and delete customer accounts.
+
 Fund Transfers: Transfer funds between accounts with ease.
+
 Transaction History: View detailed transaction history for each account.
+
 Balance Inquiry: Check account balances in real-time.
+
 Admin Dashboard: Manage users and monitor system performance.
 
 Technologies Used:-
 
-Programming Language: Java
-GUI Framework: Java Swing
+Programming Language:
+Java
+
+GUI Framework: Java Swing , JFRAME
+
 Database: MySQL
+
 Development Environment: IntelliJ IDEA / Eclipse / NetBeans (or any preferred IDE)
+
 Version Control: Git
-Installation
+
+Installation:-
+
 To set up the Bank Management System locally, follow these steps:
 
 Clone the repository:-

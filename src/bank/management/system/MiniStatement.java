@@ -84,7 +84,7 @@ public class MiniStatement extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        // Implement actionPerformed if needed
+        // Implement actionPerformed if we needed 
     }
 
     public static void main(String[] args) {

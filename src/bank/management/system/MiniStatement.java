@@ -8,34 +8,57 @@ import java.sql.ResultSet;
 
 public class MiniStatement extends JFrame implements ActionListener {
 
-    JLabel mini, card, balance; // Declare labels
+    JLabel mini, card, balance;
     String pinnumber;
 
     MiniStatement(String pinnumber) {
-        this.pinnumber = pinnumber; // Store the PIN number
+        this.pinnumber = pinnumber;
 
         setTitle("MINI STATEMENT");
         setLayout(null);
 
-        mini = new JLabel(); // Initialize mini JLabel
-        mini.setVerticalAlignment(SwingConstants.TOP); // Align text to the top
+        mini = new JLabel();
+        mini.setVerticalAlignment(SwingConstants.TOP);
         add(mini);
 
-        JLabel bank = new JLabel("Bank Of Baroda");
+        JLabel bank = new JLabel("Shreyansh's Bank");
         bank.setBounds(150, 20, 100, 20);
         add(bank);
 
-        card = new JLabel(); // Initialize card JLabel
+        card = new JLabel();
         card.setBounds(20, 80, 300, 20);
         add(card);
 
-        balance = new JLabel(); // Initialize balance JLabel
+        balance = new JLabel();
         balance.setBounds(20, 400, 300, 20);
         add(balance);
 
+
+
         try {
             Conn conn = new Conn();
-            ResultSet rs = conn.s.executeQuery("select * from bank where pin='" + pinnumber + "'");
+            int bal = 0;
+            ResultSet rs = conn.s.executeQuery("SELECT * FROM login WHERE pinnumber = '" + pinnumber + "'");
+            while (rs.next()) {
+                card.setText("Card Number: " + rs.getString("cardnumber").substring(0, 4) + "xxxxxxxx" + rs.getString("cardnumber").substring(12));
+            }
+
+            ResultSet rs2 = conn.s.executeQuery("SELECT * FROM bank WHERE pinnumber='" + pinnumber + "'");
+            while (rs2.next()) {
+                if (rs2.getString("type").equals("Deposit")) {
+                    bal += Integer.parseInt(rs2.getString("amount"));
+                } else {
+                    bal -= Integer.parseInt(rs2.getString("amount"));
+                }
+            }
+            balance.setText("Your Current Account balance is Rs " + bal);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+                try {
+            Conn conn = new Conn();
+            ResultSet rs = conn.s.executeQuery("SELECT * FROM bank WHERE pinnumber='" + pinnumber + "'");
             StringBuilder miniText = new StringBuilder("<html>");
             while (rs.next()) {
                 miniText.append(rs.getString("date"))
@@ -47,30 +70,6 @@ public class MiniStatement extends JFrame implements ActionListener {
             }
             miniText.append("</html>");
             mini.setText(miniText.toString());
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        try {
-            Conn conn = new Conn();
-            int bal = 0;
-            ResultSet rs = conn.s.executeQuery("select * from login where pinnumber = '" + pinnumber + "'");
-            while (rs.next()) {
-                card.setText("Card Number: " + rs.getString("cardnumber").substring(0, 4) + "xxxxxxxx" + rs.getString("cardnumber").substring(12));
-            }
-
-            // Now calculate the balance
-            ResultSet rs2 = conn.s.executeQuery("select * from bank where pin='" + pinnumber + "'");
-            while (rs2.next()) {
-                if (rs2.getString("type").equals("Deposit")) {
-                    bal += Integer.parseInt(rs2.getString("amount"));
-                } else {
-                    bal -= Integer.parseInt(rs2.getString("amount"));
-                }
-            }
-            balance.setText("Your Current Account balance is Rs " + bal);
-
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -84,7 +83,7 @@ public class MiniStatement extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        // Implement actionPerformed if we needed 
+        // Implement actionPerformed if needed
     }
 
     public static void main(String[] args) {

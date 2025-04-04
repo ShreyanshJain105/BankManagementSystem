@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 public class PinChange extends JFrame implements ActionListener {
 
@@ -75,31 +73,28 @@ public class PinChange extends JFrame implements ActionListener {
                 String rpin = repin.getText();
 
                 if (!npin.equals(rpin)) {
-                    JOptionPane.showMessageDialog(null, "Entered Pins Does Not Match");
+                    JOptionPane.showMessageDialog(null, "Entered Pins Do Not Match");
                     return;
                 }
-                if(npin.equals(" ")) {
-                    JOptionPane.showMessageDialog(null,"Please enter Pin");
+                if (npin.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter Pin");
                     return;
                 }
-                if(rpin.equals("")){
-                    JOptionPane.showMessageDialog(null,"Please re-enter new pin  ");
+                if (rpin.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please re-enter new pin");
                     return;
                 }
 
                 Conn conn = new Conn();
-                String query1 = "update bank set pin ='"+rpin+"' where pin='"+pinnumber+"'";
-
-                String query2 = "update login set pinnumber ='"+rpin+"' where pinnumber='"+pinnumber+"'";
-
-                String query3 = "update signupthree set pinnumber ='"+rpin+"' where pinnumber='"+pinnumber+"'";
+                String query1 = "UPDATE bank SET pinnumber ='" + rpin + "' WHERE pinnumber='" + pinnumber + "'";
+                String query2 = "UPDATE login SET pinnumber ='" + rpin + "' WHERE pinnumber='" + pinnumber + "'";
+                String query3 = "UPDATE signupthree SET pinnumber ='" + rpin + "' WHERE pinnumber='" + pinnumber + "'";
 
                 conn.s.executeUpdate(query1);
                 conn.s.executeUpdate(query2);
                 conn.s.executeUpdate(query3);
 
-                JOptionPane.showMessageDialog(null,"Pin Changes Successfully");
-
+                JOptionPane.showMessageDialog(null, "Pin Changed Successfully");
                 setVisible(false);
                 new Transaction(rpin).setVisible(true);
 
@@ -111,8 +106,8 @@ public class PinChange extends JFrame implements ActionListener {
             new Transaction(pinnumber).setVisible(true);
         }
     }
-    public static void main(String args[]){
 
+    public static void main(String args[]) {
         new PinChange("").setVisible(true);
     }
 }

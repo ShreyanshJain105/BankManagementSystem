@@ -2,17 +2,20 @@ package bank.management.system;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 public class Transaction extends JFrame implements ActionListener {
 
-    JButton deposit, withdrawal, ministatement,accountProfile, pinchange, fastcash, balanceenquiry, exit;
+    JButton deposit, withdrawal, ministatement, accountProfile, pinchange, fastcash, balanceenquiry, exit;
     String pinnumber;
-    JLabel cardnumber;
+    String cardnumber; // Make cardnumber an instance variable
 
-    Transaction(String pinnumber) {
+    public Transaction(String pinnumber) {
         this.pinnumber = pinnumber;
         setLayout(null);
+        setUndecorated(true); // Move this before setVisible(true)
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
         Image i2 = i1.getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT);
@@ -24,7 +27,7 @@ public class Transaction extends JFrame implements ActionListener {
         JLabel text = new JLabel("Please select your Transaction");
         text.setBounds(210, 300, 700, 35);
         text.setForeground(Color.white);
-        text.setFont(new Font("Arial", Font.BOLD, 16)); // Changed to a more common font
+        text.setFont(new Font("Arial", Font.BOLD, 16));
         image.add(text);
 
         deposit = new JButton("Deposit");
@@ -57,29 +60,30 @@ public class Transaction extends JFrame implements ActionListener {
         balanceenquiry.addActionListener(this);
         image.add(balanceenquiry);
 
-
-        JButton accountProfile = new JButton("Account Profile");
-        accountProfile.setBounds(10, 10, 150, 30); // Positioning it in the bottom left corner
+        accountProfile = new JButton("Account Profile");
+        accountProfile.setBounds(10, 10, 150, 30);
         accountProfile.addActionListener(this);
         image.add(accountProfile);
-
-// Set up the frame
-        setSize(900, 900);
-        setLocation(300, 0);
-        setUndecorated(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application exits when the window is closed
-        setVisible(true);
-
 
         exit = new JButton("Exit");
         exit.setBounds(355, 520, 150, 30);
         exit.addActionListener(this);
         image.add(exit);
 
+        // Fetch card number from the database
+        try {
+            Conn conn = new Conn();
+            ResultSet rs = conn.s.executeQuery("SELECT cardnumber FROM login WHERE pinnumber = '" + pinnumber + "'");
+            if (rs.next()) {
+                cardnumber = rs.getString("cardnumber");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         setSize(900, 900);
         setLocation(300, 0);
-        setUndecorated(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application exits when the window is closed
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
@@ -95,7 +99,6 @@ public class Transaction extends JFrame implements ActionListener {
         } else if (ae.getSource() == fastcash) {
             setVisible(false);
             new FastCash(pinnumber).setVisible(true);
-
         } else if (ae.getSource() == pinchange) {
             setVisible(false);
             new PinChange(pinnumber).setVisible(true);
@@ -105,25 +108,20 @@ public class Transaction extends JFrame implements ActionListener {
         } else if (ae.getSource() == ministatement) {
             new MiniStatement(pinnumber).setVisible(true);
         } else if (ae.getSource() == accountProfile) {
-            // Create a new JFrame for the account profile
             JFrame profileFrame = new JFrame("Account Profile");
             profileFrame.setSize(300, 200);
             profileFrame.setLocation(400, 200);
             profileFrame.setLayout(null);
 
-            // Create a label to display the card number
-            JLabel cardLabel = new JLabel("Card Number: " + cardnumber); // Use the stored card number
+            JLabel cardLabel = new JLabel("Card Number: " + cardnumber);
             cardLabel.setBounds(50, 50, 200, 30);
             profileFrame.add(cardLabel);
 
-            // Make the profile frame visible
             profileFrame.setVisible(true);
         }
-
     }
 
     public static void main(String[] args) {
-        new Transaction(""); // Pass an empty string for the PIN number
+        new Transaction(""); // Pass a valid PIN number for testing
     }
 }
-

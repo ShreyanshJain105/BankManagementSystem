@@ -2,10 +2,11 @@ package bank.management.system;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class Signupthree extends JFrame implements ActionListener { // Extend JFrame
+public class Signupthree extends JFrame implements ActionListener {
 
     JRadioButton r1, r2, r3, r4;
     JCheckBox c1, c2, c3, c4, c5, c6, c7, c8;
@@ -14,12 +15,12 @@ public class Signupthree extends JFrame implements ActionListener { // Extend JF
 
     Signupthree(String formno) {
         this.formno = formno;
-        setLayout(null); // Set layout to null for absolute positioning
+        setLayout(null);
 
         JLabel l1 = new JLabel("Page 3 : Account Details");
         l1.setFont(new Font("Raleway", Font.BOLD, 22));
         l1.setBounds(280, 40, 400, 40);
-        add(l1); // Add the label to the frame
+        add(l1);
 
         JLabel type = new JLabel("Account Type");
         type.setFont(new Font("Raleway", Font.BOLD, 22));
@@ -50,46 +51,43 @@ public class Signupthree extends JFrame implements ActionListener { // Extend JF
         r4.setBackground(Color.white);
         add(r4);
 
-        // Select only one choice of account
         ButtonGroup groupaccount = new ButtonGroup();
         groupaccount.add(r1);
         groupaccount.add(r2);
         groupaccount.add(r3);
         groupaccount.add(r4);
 
-        // Card and number
         JLabel card = new JLabel("Card Number ");
         card.setFont(new Font("Raleway", Font.BOLD, 22));
         card.setBounds(100, 300, 200, 30);
         add(card);
 
-        JLabel number = new JLabel("XXXX-XXXX-XXXX-1206"); // Dummy card number
+        JLabel number = new JLabel("XXXX-XXXX-XXXX-1206");
         number.setFont(new Font("Raleway", Font.BOLD, 22));
         number.setBounds(330, 300, 300, 30);
         add(number);
 
-        JLabel carddetails = new JLabel("YOUR 16 DIGIT CARD NUMBER"); // Dummy card number
+        JLabel carddetails = new JLabel("YOUR 16 DIGIT CARD NUMBER");
         carddetails.setFont(new Font("Raleway", Font.BOLD, 12));
         carddetails.setBounds(100, 330, 300, 15);
         add(carddetails);
 
-        // Pin and pin number
         JLabel pin = new JLabel("Pin : ");
         pin.setFont(new Font("Raleway", Font.BOLD, 22));
         pin.setBounds(100, 370, 200, 30);
         add(pin);
 
-        JLabel pnumber = new JLabel("XXXX"); // Dummy pin number
+        JLabel pnumber = new JLabel("XXXX");
         pnumber.setFont(new Font("Raleway", Font.BOLD, 22));
         pnumber.setBounds(330, 370, 300, 30);
         add(pnumber);
 
-        JLabel pindetails = new JLabel("YOUR 4 DIGIT PIN NUMBER"); // Dummy pin number
+        JLabel pindetails = new JLabel("YOUR 4 DIGIT PIN NUMBER");
         pindetails.setFont(new Font("Raleway", Font.BOLD, 12));
         pindetails.setBounds(100, 400, 300, 15);
         add(pindetails);
 
-        JLabel service = new JLabel("SERVICES REQUIRED"); // Dummy service label
+        JLabel service = new JLabel("SERVICES REQUIRED");
         service.setFont(new Font("Raleway", Font.BOLD, 22));
         service.setBounds(100, 450, 300, 30);
         add(service);
@@ -159,13 +157,12 @@ public class Signupthree extends JFrame implements ActionListener { // Extend JF
         add(cancel);
 
         getContentPane().setBackground(Color.WHITE);
-
-        setSize(850, 820); // Set size of the JFrame
-        setLocation(350, 0); // Set location of the JFrame
-        setVisible(true); // Make the JFrame visible
+        setSize(850, 820);
+        setLocation(350, 0);
+        setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent ae) { // Corrected method name
+    public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == submit) {
             String accountType = null;
             if (r1.isSelected()) {
@@ -178,52 +175,30 @@ public class Signupthree extends JFrame implements ActionListener { // Extend JF
                 accountType = "Recurring Deposit Account";
             }
 
-            // Validate account type length
-            if (accountType != null && accountType.length() > 50) { // Adjust the number based on your column size
-                JOptionPane.showMessageDialog(null, "Account type exceeds maximum length.");
-                return;
-            }
-
             Random random = new Random();
-            // Generate a 16-digit card number
-            String cardnumber = String.format("%016d", Math.abs(random.nextLong() % 10000000000000000L));
-            String pinnumber = String.format("%04d", Math.abs(random.nextInt(9000) + 1000)); // Ensure PIN is 4 digits
+            String cardnumber = ""+ Math.abs((random.nextLong() % 90000000L )+ 1585010000000000L);
+            String pinnumber = ""+ Math.abs((random.nextLong() %9000L)+1000L);
 
-            // Check the length of the card number before inserting
-            if (cardnumber.length() > 16) {
-                JOptionPane.showMessageDialog(null, "Card number exceeds maximum length.");
-                return;
-            }
-
-            StringBuilder facility = new StringBuilder(); // Use StringBuilder for multiple selections
+            String facility = "";
             if (c1.isSelected()) {
-                facility.append("ATM Card, ");
+                facility  = facility + "ATM Card";
             }
-            if (c2.isSelected()) {
-                facility.append("Internet Banking, ");
+            else if (c2.isSelected()) {
+                facility= facility + "Internet Banking";
             }
             if (c3.isSelected()) {
-                facility.append("Mobile Banking, ");
+                facility = facility + "Mobile Banking";
             }
             if (c4.isSelected()) {
-                facility.append("EMAIL Alerts, ");
+                facility= facility + "EMAIL Alerts";
             }
             if (c5.isSelected()) {
-                facility.append("Cheque Book, ");
+                facility= facility + "Cheque Book";
             }
             if (c6.isSelected()) {
-                facility.append("E-Statement, ");
+                facility= facility + "E-Statement";
             }
 
-            if (facility.length() > 0) {
-                facility.setLength(facility.length() - 2);
-            }
-
-            //validate
-            if (facility.length() > 255) {
-                JOptionPane.showMessageDialog(null, "Facility exceeds maximum length.");
-                return;
-            }
 
             try {
                 if (accountType == null) {
@@ -231,28 +206,26 @@ public class Signupthree extends JFrame implements ActionListener { // Extend JF
                 } else if (!c8.isSelected()) {
                     JOptionPane.showMessageDialog(null, "Check Terms & Conditions");
                 } else {
-                    Conn conn = new Conn(); // Ensure Conn class is defined
-                    String query1 = "insert into signupthree values('" + formno + "','" + accountType + "','" + cardnumber + "','" + pinnumber + "','" + facility + "')";
+                    Conn conn = new Conn();
+                    String query1 = "INSERT INTO signupthree VALUES('" + formno + "','" + accountType + "','" + cardnumber + "','" + pinnumber + "','" + facility + "')";
                     conn.s.executeUpdate(query1);
-                    String query2 = "insert into login values('" + formno + "','" + cardnumber + "','" + pinnumber + "')";
-                    conn.s.executeUpdate(query2); // Execute the second query
+                    String query2 = "INSERT INTO login VALUES('" + formno + "','" + cardnumber + "','" + pinnumber + "')";
+                    conn.s.executeUpdate(query2);
 
                     JOptionPane.showMessageDialog(null, "Card Number: " + cardnumber + "\n Pin: " + pinnumber);
+                    setVisible(false);
+                    new Deposit(pinnumber).setVisible(true);
                 }
-                setVisible(false);
-                new Deposit(pinnumber).setVisible(false);
-
             } catch (Exception e) {
-                e.printStackTrace(); // Print the stack trace for better debugging
+                System.out.println(e);
             }
         } else if (ae.getSource() == cancel) {
-            // Handle cancel action (e.g., close the window or go back)
-            this.setVisible(false); // Close the current frame
+            this.setVisible(false);
             new Login().setVisible(true);
         }
     }
 
     public static void main(String[] args) {
-        new Signupthree(""); // Create an instance of Signupthree
+        new Signupthree("");
     }
 }

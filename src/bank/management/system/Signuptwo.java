@@ -2,12 +2,13 @@ package bank.management.system;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Signuptwo extends JFrame implements ActionListener { // Inherit from JFrame
+public class Signuptwo extends JFrame implements ActionListener {
 
-    long random; // Instance variable for random number
-    JTextField aadhar, pan; // Removed extra comma
+
+    JTextField aadhar, pan;
     JButton next;
     JRadioButton syes, sno, eyes, eno;
     JComboBox<String> religion, category, income, education, occupation;
@@ -15,20 +16,18 @@ public class Signuptwo extends JFrame implements ActionListener { // Inherit fro
 
     public Signuptwo(String formno) {
         this.formno = formno;
-        random = (long) (Math.random() * 10000); // Initialize random number
-        setLayout(null); // Set layout for this JFrame
+        setLayout(null);
 
         JLabel additionalDetails = new JLabel("Page 2 : Additional Details");
-        additionalDetails.setFont(new Font("Arial", Font.BOLD, 22)); // Changed font to Arial
+        additionalDetails.setFont(new Font("Arial", Font.BOLD, 22));
         additionalDetails.setBounds(290, 80, 400, 30);
         add(additionalDetails);
 
         JLabel religionlabel = new JLabel("Religion:");
-        religionlabel.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
+        religionlabel.setFont(new Font("Arial", Font.BOLD, 20));
         religionlabel.setBounds(100, 140, 100, 30);
         add(religionlabel);
 
-        // Dropdown table with combobox class
         String valreligion[] = {"Jain", "Hindu", "Sikh", "Christian", "Muslim", "Others"};
         religion = new JComboBox<>(valreligion);
         religion.setBounds(300, 140, 400, 30);
@@ -36,7 +35,7 @@ public class Signuptwo extends JFrame implements ActionListener { // Inherit fro
         add(religion);
 
         JLabel categorylabel = new JLabel("Category: ");
-        categorylabel.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
+        categorylabel.setFont(new Font("Arial", Font.BOLD, 20));
         categorylabel.setBounds(100, 190, 150, 30);
         add(categorylabel);
 
@@ -47,7 +46,7 @@ public class Signuptwo extends JFrame implements ActionListener { // Inherit fro
         add(category);
 
         JLabel incomeLabel = new JLabel("Income:");
-        incomeLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
+        incomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         incomeLabel.setBounds(100, 240, 150, 30);
         add(incomeLabel);
 
@@ -57,107 +56,100 @@ public class Signuptwo extends JFrame implements ActionListener { // Inherit fro
         income.setBackground(Color.WHITE);
         add(income);
 
-        JLabel Education = new JLabel("Educational / ");
-        Education.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
-        Education.setBounds(100, 290, 200, 30);
-        add(Education);
+        JLabel educationLabel = new JLabel("Qualification: ");
+        educationLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        educationLabel.setBounds(100, 290, 200, 30);
+        add(educationLabel);
 
-        JLabel Qualification = new JLabel("Qualification: ");
-        Qualification.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
-        Qualification.setBounds(100, 315, 200, 30);
-        add(Qualification);
-
-        String educationValues[] = {"Non-Graduate", "Graduate", "Post-Graduate", "Doctorate", "Others"}; // Corrected spelling
+        String educationValues[] = {"Non-Graduate", "Graduate", "Post-Graduate", "Doctorate", "Others"};
         education = new JComboBox<>(educationValues);
-        education.setBounds(300, 315, 400, 30);
+        education.setBounds(300, 290, 400, 30);
         education.setBackground(Color.WHITE);
         add(education);
 
-        JLabel Occupation = new JLabel("Occupation: ");
-        Occupation.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
-        Occupation.setBounds(100, 390, 200, 30);
-        add(Occupation);
+        JLabel occupationLabel = new JLabel("Occupation: ");
+        occupationLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        occupationLabel.setBounds(100, 340, 200, 30);
+        add(occupationLabel);
 
-        String occupationValues[] = {"Salaried", "Self-Employed", "Business", "Retired", "Student", "Other"}; // Corrected spelling
+        String occupationValues[] = {"Salaried", "Self-Employed", "Business", "Retired", "Student", "Other"};
         occupation = new JComboBox<>(occupationValues);
-        occupation.setBounds(300, 390, 400, 30);
+        occupation.setBounds(300, 340, 400, 30);
         occupation.setBackground(Color.WHITE);
         add(occupation);
 
-        JLabel panno = new JLabel("Pan Number: ");
-        panno.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
-        panno.setBounds(100, 440, 200, 30);
-        add(panno);
+        JLabel panLabel = new JLabel("Pan Number: ");
+        panLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        panLabel.setBounds(100, 390, 200, 30);
+        add(panLabel);
 
-        pan = new JTextField(); // Use instance variable
-        pan.setFont(new Font("Arial", Font.BOLD, 14)); // Changed font to Arial
-        pan.setBounds(300, 440, 400, 30);
+        pan = new JTextField();
+        pan.setFont(new Font("Arial", Font.BOLD, 14));
+        pan.setBounds(300, 390, 400, 30);
         add(pan);
 
-        JLabel aadharno = new JLabel("Aadhar Number: ");
-        aadharno.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
-        aadharno.setBounds(100, 490, 200, 30);
-        add(aadharno);
+        JLabel aadharLabel = new JLabel("Aadhar Number: ");
+        aadharLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        aadharLabel.setBounds(100, 440, 200, 30);
+        add(aadharLabel);
 
-        aadhar = new JTextField(); // Use instance variable
-        aadhar.setFont(new Font("Arial", Font.BOLD, 14)); // Changed font to Arial
-        aadhar.setBounds(300, 490, 400, 30);
+        aadhar = new JTextField();
+        aadhar.setFont(new Font("Arial", Font.BOLD, 14));
+        aadhar.setBounds(300, 440, 400, 30);
         add(aadhar);
 
-        JLabel Seniorcitizenlabel = new JLabel("Senior Citizen: ");
-        Seniorcitizenlabel.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
-        Seniorcitizenlabel.setBounds(100, 540, 200, 30);
-        add(Seniorcitizenlabel);
+        JLabel seniorCitizenLabel = new JLabel("Senior Citizen: ");
+        seniorCitizenLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        seniorCitizenLabel.setBounds(100, 490, 200, 30);
+        add(seniorCitizenLabel);
 
-        syes = new JRadioButton("Yes"); // Use instance variable
-        syes.setBounds(300, 540, 100, 30);
+        syes = new JRadioButton("Yes");
+        syes.setBounds(300, 490, 100, 30);
         syes.setBackground(Color.WHITE);
         add(syes);
 
-        sno = new JRadioButton("No"); // Use instance variable
-        sno.setBounds(400, 540, 100, 30); // Adjusted position
+        sno = new JRadioButton("No");
+        sno.setBounds(400, 490, 100, 30);
         sno.setBackground(Color.WHITE);
         add(sno);
 
-        ButtonGroup seniorcitizen = new ButtonGroup();
-        seniorcitizen.add(syes);
-        seniorcitizen.add(sno);
+        ButtonGroup seniorCitizenGroup = new ButtonGroup();
+        seniorCitizenGroup.add(syes);
+        seniorCitizenGroup.add(sno);
 
-        JLabel Existinglabel = new JLabel("Existing Account: ");
-        Existinglabel.setFont(new Font("Arial", Font.BOLD, 20)); // Changed font to Arial
-        Existinglabel.setBounds(100, 590, 200, 30);
-        add(Existinglabel);
+        JLabel existingLabel = new JLabel("Existing Account: ");
+        existingLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        existingLabel.setBounds(100, 540, 200, 30);
+        add(existingLabel);
 
-        eyes = new JRadioButton("Yes"); // Use instance variable
-        eyes.setBounds(300, 590, 100, 30); // Adjusted position
+        eyes = new JRadioButton("Yes");
+        eyes.setBounds(300, 540, 100, 30);
         eyes.setBackground(Color.WHITE);
         add(eyes);
 
-        eno = new JRadioButton("No"); // Use instance variable
-        eno.setBounds(400, 590, 100, 30); // Adjusted position
+        eno = new JRadioButton("No");
+        eno.setBounds(400, 540, 100, 30);
         eno.setBackground(Color.WHITE);
         add(eno);
 
-        ButtonGroup ExistingAcc = new ButtonGroup();
-        ExistingAcc.add(eyes);
-        ExistingAcc.add(eno);
+        ButtonGroup existingAccGroup = new ButtonGroup();
+        existingAccGroup.add(eyes);
+        existingAccGroup.add(eno);
 
-        // Create and add the "Next" button
         next = new JButton("Next");
         next.setBackground(Color.BLACK);
-        next.setForeground(Color.WHITE); // Set foreground color for text
-        next.setFont(new Font("Arial", Font.BOLD, 14)); // Changed font to Arial
-        next.setBounds(620, 660, 80, 30); // Set bounds for the button
+        next.setForeground(Color.WHITE);
+        next.setFont(new Font("Arial", Font.BOLD, 14));
+        next.setBounds(620, 660, 80, 30);
         next.addActionListener(this);
-        add(next); // Add the button to the panel
+        add(next);
 
-        // Set JFrame properties
-        setTitle("NEW ACCOUNT APPLICATION FORM - PAGE 2"); // Set title of the JFrame
-        getContentPane().setBackground(Color.WHITE); // Set background color
-        setSize(850, 800); // Set size of the JFrame
-        setLocation(350, 10); // Set location of the JFrame
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation
-        setVisible(true); // Make the JFrame visible
+        setTitle("NEW ACCOUNT APPLICATION FORM - PAGE 2");
+        getContentPane().setBackground(Color.WHITE);
+        setSize(850, 800);
+        setLocation(350, 10);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -185,10 +177,8 @@ public class Signuptwo extends JFrame implements ActionListener { // Inherit fro
 
         try {
             Conn c = new Conn();
-            String query = "insert into signuptwo values('" + formno + "','" + sreligion + "','" + scategory + "','" + sincome + "','" + seductaion + "','" + soccupation + "','" + span + "','" + saadhar + "','" + sseniorcitizen + "','" + sexistingAcc + "')";
+            String query = "INSERT INTO signuptwo VALUES('" + formno + "','" + sreligion + "','" + scategory + "','" + sincome + "','" + seductaion + "','" + soccupation + "','" + span + "','" + saadhar + "','" + sseniorcitizen + "','" + sexistingAcc + "')";
             c.s.executeUpdate(query);
-
-            // Proceed to the next step (e.g., signup three)
             setVisible(false);
             new Signupthree(formno).setVisible(true);
         } catch (Exception e) {
@@ -197,6 +187,6 @@ public class Signuptwo extends JFrame implements ActionListener { // Inherit fro
     }
 
     public static void main(String[] args) {
-        new Signuptwo(" "); // Create an instance of Signuptwo
+        new Signuptwo("");
     }
 }

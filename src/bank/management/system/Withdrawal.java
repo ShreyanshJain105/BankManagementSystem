@@ -2,8 +2,10 @@ package bank.management.system;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Withdrawal extends JFrame implements ActionListener {
 
@@ -15,7 +17,6 @@ public class Withdrawal extends JFrame implements ActionListener {
         this.pinnumber = pinnumber;
         setLayout(null);
 
-        // Load and scale the image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
         if (i1.getImage() == null) {
             JOptionPane.showMessageDialog(null, "Image not found!");
@@ -59,12 +60,15 @@ public class Withdrawal extends JFrame implements ActionListener {
         if (ae.getSource() == withdraw) {
             String number = amount.getText();
             Date date = new Date();
-            if (number.isEmpty()) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = dateFormat.format(date);
+
+            if (number.equals("")) {
                 JOptionPane.showMessageDialog(null, "Please Enter Amount To Withdraw");
             } else {
                 try {
                     Conn conn = new Conn();
-                    String query = "INSERT INTO bank VALUES('" + pinnumber + "','" + date + "','Withdrawal','" + number + "')";
+                    String query = "INSERT INTO bank VALUES('" + pinnumber + "','" + formattedDate + "','Withdrawal','" + number + "')";
                     conn.s.executeUpdate(query);
                     JOptionPane.showMessageDialog(null, "Rs " + number + " Withdrawn Successfully");
                     setVisible(false);
@@ -80,6 +84,6 @@ public class Withdrawal extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new Withdrawal("");
+        new Withdrawal(""); // Pass a valid PIN number for testing
     }
 }

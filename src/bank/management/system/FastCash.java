@@ -2,13 +2,15 @@ package bank.management.system;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class FastCash extends JFrame implements ActionListener {
 
-    JButton r1,r2,r3,r4,r5,r6, back;
+    JButton r1, r2, r3, r4, r5, r6, back;
     String pinnumber;
 
     FastCash(String pinnumber) {
@@ -25,7 +27,7 @@ public class FastCash extends JFrame implements ActionListener {
         JLabel text = new JLabel("Select Withdrawal Amount");
         text.setBounds(210, 300, 700, 35);
         text.setForeground(Color.white);
-        text.setFont(new Font("Arial", Font.BOLD, 16)); // Changed to a more common font
+        text.setFont(new Font("Arial", Font.BOLD, 16));
         image.add(text);
 
         r1 = new JButton("Rs 100");
@@ -38,7 +40,7 @@ public class FastCash extends JFrame implements ActionListener {
         r2.addActionListener(this);
         image.add(r2);
 
-        r3 = new JButton("RS 1000");
+        r3 = new JButton("Rs 1000");
         r3.setBounds(170, 450, 150, 30);
         r3.addActionListener(this);
         image.add(r3);
@@ -66,7 +68,7 @@ public class FastCash extends JFrame implements ActionListener {
         setSize(900, 900);
         setLocation(300, 0);
         setUndecorated(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application exits when the window is closed
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
@@ -75,19 +77,24 @@ public class FastCash extends JFrame implements ActionListener {
             setVisible(false);
             new Transaction(pinnumber).setVisible(true);
         } else {
-            String amount = ((JButton)ae.getSource()).getText().substring(3);
+            String amount = ((JButton) ae.getSource()).getText().substring(3);
             Conn c = new Conn();
-            try{
-                ResultSet rs = c.s.executeQuery("SELECT * FROM bank where pin ='"+pinnumber+"' ");  int balance =0;
-                while(rs.next()){
-                    if(rs.getString("type").equals("Deposit")){
+            try {
+                ResultSet rs = c.s.executeQuery("SELECT * FROM bank WHERE pinnumber = '" + pinnumber + "'");
+                int balance = 0;
+                while (rs.next()) {
+                    if (rs.getString("type").equals("Deposit")) {
                         balance += Integer.parseInt(rs.getString("amount"));
-                    } else{
+                    } else {
                         balance -= Integer.parseInt(rs.getString("amount"));
                     }
-
                 }
 
+
+                if(ae.getSource() != back && balance < Integer.parseInt(amount)) {
+                    JOptionPane.showMessageDialog(null, "Insufficient Balance");
+                    return;
+                }
                 if(ae.getSource() != back && balance < Integer.parseInt(amount)) {
                     JOptionPane.showMessageDialog(null, "Insufficiant Balance");
                     return;
@@ -99,15 +106,13 @@ public class FastCash extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"Rs "+amount+"Debited Successfully");
                 setVisible(false);
                 new Transaction(pinnumber).setVisible(true);
-
-
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }
     }
 
     public static void main(String[] args) {
-        new FastCash(""); // Pass an empty string for the PIN number
+        new FastCash("");
     }
 }
